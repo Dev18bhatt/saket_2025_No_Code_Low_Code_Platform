@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextField, Button, Typography, CircularProgress, Box } from "@mui/material";
+import { TextField, Button, Typography, CircularProgress, Box, Paper } from "@mui/material";
 import './App.css';
 
 function App() {
@@ -47,46 +47,102 @@ function App() {
           justifyContent: 'center',
           background: 'linear-gradient(135deg, #6C6E6F, #1A2D56)',
           color: 'white',
+          padding: '20px',
         }}
       >
-        <Typography variant="h3" gutterBottom>
-          Database Schema Generator
-        </Typography>
-        <TextField
-          label="Enter your question"
-          variant="filled"
-          fullWidth
-          sx={{ marginBottom: '20px', backgroundColor: 'white', borderRadius: '5px' }}
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSubmit}
-          disabled={loading}
-          sx={{ padding: '10px 20px', color: "black" }}
+        <Paper
+          elevation={3}
+          sx={{
+            padding: '30px',
+            borderRadius: '15px',
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            width: '100%',
+            maxWidth: '600px',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          Generate Schema
-        </Button>
-
-        {loading && (
-          <Box sx={{ marginTop: '20px' }}>
-            <CircularProgress />
-          </Box>
-        )}
-        {error && (
-          <Typography sx={{ color: 'red', marginTop: '20px' }}>
-            {error}
+          {/* Title centered */}
+          <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
+            Database Schema Generator
           </Typography>
-        )}
 
-        {schema && (
-          <Box sx={{ marginTop: '20px', width: '80%', textAlign: 'left', backgroundColor: '#f4f4f4', borderRadius: '5px', padding: '20px' }}>
-            <Typography variant="h6">Generated Schema:</Typography>
-            <pre>{JSON.stringify(schema, null, 2)}</pre>
-          </Box>
-        )}
+          {/* Input centered */}
+          <TextField
+            label="Enter your question"
+            variant="filled"
+            fullWidth
+            sx={{
+              marginBottom: '20px',
+              backgroundColor: 'white',
+              borderRadius: '8px',
+              '& .MuiFilledInput-root': { borderRadius: '8px' },
+            }}
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            error={!!error}
+          />
+
+          {/* Generate button centered */}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            disabled={loading}
+            sx={{
+              padding: '10px 20px',
+              fontWeight: 'bold',
+              color: "white",
+              backgroundColor: '#3f51b5',
+              '&:hover': { backgroundColor: '#2c387e' },
+              borderRadius: '8px',
+              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+              marginBottom: '20px', // Adding space between button and next content
+            }}
+          >
+            Generate Schema
+          </Button>
+
+          {/* Loading indicator centered */}
+          {loading && (
+            <Box sx={{ marginTop: '20px' }}>
+              <CircularProgress sx={{ color: '#fff' }} />
+            </Box>
+          )}
+
+          {/* Error message centered */}
+          {error && (
+            <Typography sx={{ color: 'red', marginTop: '20px', fontWeight: 'bold' }}>
+              {error}
+            </Typography>
+          )}
+
+          {/* Schema display centered */}
+          {schema && (
+            <Box
+              sx={{
+                marginTop: '20px',
+                width: '100%',
+                padding: '20px',
+                backgroundColor: '#f4f4f4',
+                borderRadius: '8px',
+                color: 'white',
+                overflow: 'auto',
+                textAlign: 'left', // Keeping text left-aligned in the schema block
+              }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                Generated Schema:
+              </Typography>
+              <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', marginTop: '10px' }}>
+                {JSON.stringify(schema, null, 2)}
+              </pre>
+            </Box>
+          )}
+        </Paper>
       </Box>
     </div>
   );
